@@ -16,12 +16,12 @@ public class AdminController extends Controller {
         render("login.html");
     }
 
-    public String test() {
-        return "login.html";
-    }
-
     // 未配置Method级别拦截器，但会被Class级别拦截器DemoInterceptor所拦截
     public void show() {
         renderText("method show");
+    }
+
+    public void test() {
+        renderText("test");
     }
 }
