@@ -1,0 +1,3 @@
+host: 122.112.216.37
+port: 6379
+user: root

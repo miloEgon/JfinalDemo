@@ -1,0 +1,3 @@
+jdbcUrl: 122.112.216.37:3306/demo
+username: root
+password: Xjq/dj2019
