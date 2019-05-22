@@ -1,5 +1,0 @@
-com\demo\interceptor\GlobalActionInterceptor.class
-com\demo\controller\AdminController.class
-com\demo\interceptor\GlobalServiceInterceptor.class
-com\demo\routers\AdminRoutes.class
-com\demo\routers\FrontRoutes.class
