@@ -1,64 +1,48 @@
 package com.demo.entity;
 
-public class User {
+import com.jfinal.plugin.activerecord.Model;
 
-    public User() {
-    }
+public class User extends Model<User> {
 
-    public User(Long id, String userName, String trueName, String phone) {
-        this.id = id;
-        this.userName = userName;
-        this.trueName = trueName;
-        this.phone = phone;
-    }
+    public static final User dao = new User().dao();
 
     private Long id;
 
-    private String userName;
+    private String username;
 
-    private String trueName;
+    private String password;
 
-    private String phone;
-
-    private Integer age;
-
-    public Integer getAge() {
-        return age;
-    }
-
-    public void setAge(Integer age) {
-        this.age = age;
-    }
+    private Byte gender;
 
     public Long getId() {
         return id;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
-    public String getTrueName() {
-        return trueName;
+    public String getPassword() {
+        return password;
     }
 
-    public String getPhone() {
-        return phone;
+    public Byte getGender() {
+        return gender;
     }
 
     public void setId(Long id) {
         this.id = id;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public void setTrueName(String trueName) {
-        this.trueName = trueName;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setGender(Byte gender) {
+        this.gender = gender;
     }
 }

@@ -1,16 +1,18 @@
 package com.demo.controller;
 
-import com.demo.entity.User;
+import com.demo.interceptor.AAA;
+import com.jfinal.aop.Before;
+import com.jfinal.aop.Clear;
 import com.jfinal.core.ActionKey;
 import com.jfinal.core.Controller;
 import com.jfinal.upload.UploadFile;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
 public class HelloController extends Controller {
 
+    @Before(AAA.class)
+    @Clear
     public void index() {
         renderText("hello world");
     }
@@ -24,7 +26,7 @@ public class HelloController extends Controller {
         renderVelocity("login.html");*/
     }
 
-    public void login() {
+    /*public void login() {
         User user = new User();
         user.setUserName(getPara("uname"));
         user.setAge(getParaToInt("age"));
@@ -34,7 +36,7 @@ public class HelloController extends Controller {
         } else {
             renderError(500 , "error.html");
         }
-    }
+    }*/
 
     public void upload() {
         renderTemplate("upload.html");
@@ -47,7 +49,7 @@ public class HelloController extends Controller {
         renderQrCode("https://www.baidu.com",300,300, 'M');
     }
 
-    public void getJson() {
+    /*public void getJson() {
         User user = new User(1L, "milo", "张二狗", "17718152603");
         // 将user对象转换成 json 并渲染
         renderJson(user);
@@ -63,7 +65,7 @@ public class HelloController extends Controller {
         userList.add(user3);
         // 以 "users" 为根，仅将 userList 中的数据转换成 json 并渲染
         renderJson("users", userList);
-    }
+    }*/
 
     public void testJson() {
         setAttr("user","milo");
