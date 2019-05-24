@@ -1,13 +1,14 @@
 package com.demo.controller;
 
 import com.demo.entity.User;
+import com.jfinal.aop.Clear;
 import com.jfinal.core.Controller;
 
 public class UserController extends Controller {
 
-
+    @Clear
     public void insert() {
-        boolean save = new User().set("username", "James").set("password", "246789").save();
+        boolean save = new User().set("username", "Jack").set("password", "246789").save();
         if (save) renderText("save success");
         else renderText("save error");
     }

@@ -5,6 +5,7 @@ import com.demo.interceptor.GlobalActionInterceptor;
 import com.demo.interceptor.GlobalServiceInterceptor;
 import com.demo.routers.AdminRoutes;
 import com.demo.routers.FrontRoutes;
+import com.demo.utils.Secrets;
 import com.jfinal.config.*;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.plugin.druid.DruidPlugin;
@@ -41,14 +42,14 @@ public class DemoConfig extends JFinalConfig {
 
     @Override
     public void configPlugin(Plugins plugins) {
-        DruidPlugin dp = new DruidPlugin("jdbc:mysql://122.112.216.37/demo", "root", "Xjq/dj2019");
+        DruidPlugin dp = new DruidPlugin(Secrets.jdbcUrl, Secrets.jdbcUsername, Secrets.jdbcPassword);
         plugins.add(dp);
 
         ActiveRecordPlugin arp = new ActiveRecordPlugin(dp);
         plugins.add(arp);
         arp.addMapping("user", User.class);
 
-        RedisPlugin redis = new RedisPlugin("bbs","122.112.216.37", 6379,"Xjq/dj2019");
+        RedisPlugin redis = new RedisPlugin("bbs", Secrets.redisHost, Secrets.redisPort, Secrets.redisPwd);
         JedisPoolConfig jpc = redis.getJedisPoolConfig();
         jpc.setMaxTotal(30);
         jpc.setMaxIdle(10);

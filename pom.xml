@@ -23,6 +23,8 @@
         <slf4j.version>1.6.1</slf4j.version>
         <redis.clients.version>2.7.2</redis.clients.version>
         <commons-codec.version>1.9</commons-codec.version>
+        <fst.version>2.40</fst.version>
+        <servlet-api.version>2.5</servlet-api.version>
     </properties>
 
     <!--集中声明依赖-->
@@ -34,6 +36,7 @@
                 <artifactId>jfinal</artifactId>
                 <version>${jfinal.version}</version>
             </dependency>
+            <!--mysql依赖-->
             <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>druid</artifactId>
@@ -44,6 +47,7 @@
                 <artifactId>mysql-connector-java</artifactId>
                 <version>${mysql.version}</version>
             </dependency>
+            <!--log4j依赖-->
             <dependency>
                 <groupId>log4j</groupId>
                 <artifactId>log4j</artifactId>
@@ -80,6 +84,16 @@
                 <artifactId>commons-codec</artifactId>
                 <version>${commons-codec.version}</version>
             </dependency>
+            <dependency>
+                <groupId>de.ruedigermoeller</groupId>
+                <artifactId>fst</artifactId>
+                <version>${fst.version}</version>
+            </dependency>
+            <!--<dependency>
+                <groupId>javax.servlet</groupId>
+                <artifactId>servlet-api</artifactId>
+                <version>${servlet-api.version}</version>
+            </dependency>-->
         </dependencies>
     </dependencyManagement>
 

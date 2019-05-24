@@ -5,11 +5,6 @@ import net.sf.json.JSONObject;
 
 public class BaseController extends Controller {
 
-
-    public void OK() {
-        result(0, "ok", null);
-    }
-
     public void doResult(Object code, String message, Object data) {
         result(code, message, data);
     }
