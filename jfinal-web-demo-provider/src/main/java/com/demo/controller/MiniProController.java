@@ -32,7 +32,11 @@ public class MiniProController extends BaseController {
             //生成rd_session(自定义登录态)
             String rd_session = DigestUtils.md5Hex( String.valueOf(map.get("openid")).concat(String.valueOf(map.get("session_key"))) );
             //以rd_session为key,session_key+openid为value,将自定义登录态存入Redis
-            cache.setex(rd_session, 3600, map);//有效期一小时
+            cache.set(rd_session, map);
+            //业务验证
+
+
+
             //返回自定义登录态
             doResult(1,"ok", rd_session);
         } else {

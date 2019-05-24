@@ -1,6 +1,8 @@
 package com.demo.interceptor;
 
 import com.demo.controller.BaseController;
+import com.demo.service.AccountService;
+import com.jfinal.aop.Inject;
 import com.jfinal.aop.Interceptor;
 import com.jfinal.aop.Invocation;
 import com.jfinal.plugin.redis.Cache;
@@ -13,9 +15,12 @@ public class GlobalActionInterceptor implements Interceptor{
 
     private final static Cache cache = Redis.use("bbs");
 
+    @Inject
+    AccountService service;
+
     public void intercept(Invocation inv) {
         BaseController controller = (BaseController)inv.getController();
-        System.out.println("Before GlobalActionInterceptor Invoke");
+        System.out.println("Before GlobalActionInterceptor Invoke"+service.justDuIt());
         String rd_session = controller.getHeader("rd_session");//拦截请求头中的自定义登录态
         System.out.println(rd_session);
         Object obj = cache.get(rd_session);
@@ -31,6 +36,6 @@ public class GlobalActionInterceptor implements Interceptor{
                 controller.doResult(0,"身份认证失败", null);
             }
         }
-        System.out.println("After GlobalActionInterceptor Invoke");
+        System.out.println("After GlobalActionInterceptor Invoke"+service.justDuIt());
     }
 }
