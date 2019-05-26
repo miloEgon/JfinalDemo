@@ -3,7 +3,6 @@ package com.demo.controller;
 import com.demo.utils.CommonUtil;
 import com.demo.utils.Secrets;
 import com.jfinal.aop.Clear;
-import com.jfinal.core.Controller;
 import com.jfinal.plugin.redis.Cache;
 import com.jfinal.plugin.redis.Redis;
 import net.sf.json.JSONException;

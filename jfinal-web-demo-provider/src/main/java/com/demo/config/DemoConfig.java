@@ -48,15 +48,15 @@ public class DemoConfig extends JFinalConfig {
         plugins.add(arp);
         arp.addMapping("user", User.class);
 
-        RedisPlugin redis = new RedisPlugin("bbs","122.112.216.37", 6379,"Xjq/dj2019");
-        JedisPoolConfig jpc = redis.getJedisPoolConfig();
-        jpc.setMaxTotal(30);
-        jpc.setMaxIdle(10);
-        jpc.setMaxWaitMillis(3000);
-        jpc.setMinEvictableIdleTimeMillis(600000);
-        jpc.setSoftMinEvictableIdleTimeMillis(600000);
-        jpc.setTimeBetweenEvictionRunsMillis(300000);
-        plugins.add(redis);
+//        RedisPlugin redis = new RedisPlugin("bbs","122.112.216.37", 6379,"Xjq/dj2019");
+//        JedisPoolConfig jpc = redis.getJedisPoolConfig();
+//        jpc.setMaxTotal(30);
+//        jpc.setMaxIdle(10);
+//        jpc.setMaxWaitMillis(3000);
+//        jpc.setMinEvictableIdleTimeMillis(600000);
+//        jpc.setSoftMinEvictableIdleTimeMillis(600000);
+//        jpc.setTimeBetweenEvictionRunsMillis(300000);
+//        plugins.add(redis);
     }
 
     @Override
