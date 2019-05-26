@@ -22,7 +22,8 @@ public class RedisController extends BaseController {
         Map<Object, Object> map = new HashMap<Object, Object>();
         map.put("openid",openid);
         map.put("session_key",session_key);
-        cache.setex(rd_session, 60, map);
+//        cache.setex(rd_session, 60, map);
+        cache.set(rd_session,map);
         doResult(1,"保存成功", rd_session);
     }
 

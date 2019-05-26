@@ -20,10 +20,12 @@
         <mysql.version>5.1.38</mysql.version>
         <log4j.version>1.2.16</log4j.version>
         <commons.version>2.6</commons.version>
-        <slf4j.version>1.6.1</slf4j.version>
+        <slf4j.version>1.7.7</slf4j.version>
         <redis.clients.version>2.7.2</redis.clients.version>
         <commons-codec.version>1.9</commons-codec.version>
         <fst.version>2.40</fst.version>
+        <jfinal-ext3.version>4.0.1</jfinal-ext3.version>
+        <log4jdbc.version>1.2</log4jdbc.version>
     </properties>
 
     <!--集中声明依赖-->
@@ -56,6 +58,16 @@
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-log4j12</artifactId>
                 <version>${slf4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.googlecode.log4jdbc</groupId>
+                <artifactId>log4jdbc</artifactId>
+                <version>${log4jdbc.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.jfinal</groupId>
+                <artifactId>jfinal-ext3</artifactId>
+                <version>${jfinal-ext3.version}</version>
             </dependency>
             <dependency>
                 <groupId>commons-lang</groupId>

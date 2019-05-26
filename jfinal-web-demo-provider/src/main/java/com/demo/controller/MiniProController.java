@@ -8,15 +8,15 @@ import net.sf.json.JSONException;
 import net.sf.json.JSONObject;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+//import org.slf4j.Logger;
+//import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class MiniProController extends BaseController {
 
-    private static Logger logger = LoggerFactory.getLogger(MiniProController.class);
+//    private static Logger logger = LoggerFactory.getLogger(MiniProController.class);
 
     private static Cache cache = Redis.use("bbs");
 
@@ -60,7 +60,7 @@ public class MiniProController extends BaseController {
                 msg = "code为空";
             } else {
                 String requestUrl = WX_URL.replace("APPID", Secrets.appId).replace("SECRET", Secrets.appSecret).replace("JSCODE", code);
-                logger.info(requestUrl);
+//                logger.info(requestUrl);
                 // 发起GET请求获取凭证
                 JSONObject jsonObject = CommonUtil.httpsRequest(requestUrl, "GET", null);
                 if (jsonObject != null) {
@@ -80,7 +80,7 @@ public class MiniProController extends BaseController {
             map.put("status", status);
             map.put("msg", msg);
         } catch (Exception e) {
-            logger.error(e.getMessage(), e);
+//            logger.error(e.getMessage(), e);
         }
         return map;
     }
