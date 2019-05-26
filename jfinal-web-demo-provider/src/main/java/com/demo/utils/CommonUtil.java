@@ -1,8 +1,8 @@
 package com.demo.utils;
 
 import net.sf.json.JSONObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+//import org.slf4j.Logger;
+//import org.slf4j.LoggerFactory;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
@@ -17,7 +17,7 @@ import java.net.URL;
 
 public class CommonUtil {
 
-    private static Logger logger = LoggerFactory.getLogger(CommonUtil.class);
+//    private static Logger logger = LoggerFactory.getLogger(CommonUtil.class);
 
     /**
      * 发送https请求
@@ -72,9 +72,9 @@ public class CommonUtil {
             conn.disconnect();
             jsonObject = JSONObject.fromObject(buffer.toString());
         } catch (ConnectException ce) {
-            logger.error("连接超时：{}", ce);
+//            logger.error("连接超时：{}", ce);
         } catch (Exception e) {
-            logger.error("https请求异常：{}", e);
+//            logger.error("https请求异常：{}", e);
         }
         return jsonObject;
     }
