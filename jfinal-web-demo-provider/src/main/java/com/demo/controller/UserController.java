@@ -5,7 +5,9 @@ import com.demo.utils.ResultCode;
 import com.demo.utils.ResultMsg;
 import com.jfinal.aop.Clear;
 import com.jfinal.json.Json;
+import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Page;
+import com.jfinal.plugin.activerecord.Record;
 
 public class UserController extends BaseController {
 
@@ -27,25 +29,15 @@ public class UserController extends BaseController {
     public void find() {
         /*String json = getRawData();
         User user = FastJson.getJson().parse(json, User.class);*/
-//        Record r = getArgsRecord();
-//        Long id = Long.valueOf(r.getStr("id"));
-//        System.out.println("获取到的参数："+id);
 
         Integer pageNum = getParaToInt("pageNum");
         Integer pageSize = getParaToInt("pageSize");
-//        String sql = "select * from user where id = "+id;
-        Page<User> users = User.dao.paginate(pageNum, pageSize, "select *", "from user");
-//        List<User> users = User.dao.find(sql);
-//        List<Record> users = Db.find(sql);
-        System.out.println(users);
-        doResult(ResultCode.success, ResultMsg.find_success, json.toJson(users));
-
-        /*String json = getRawData();
-        renderJson(json);*/
-       /* Long id = Long.valueOf(getPara("id"));
-        String name = getPara("name");
-        renderText(id.toString()+"--"+name);*/
-        /*User.dao.findById();*/
+        String select = "select *";
+        String sql = "from user where id > ? and id < ?";
+        Page<User> users = User.dao.paginate(pageNum, pageSize, select, sql,1,9);
+        Page<Record> userPage = Db.paginate(pageNum, pageSize, select, sql, 1,9);
+        System.out.println(users+"--"+userPage);
+        doResult(ResultCode.success, ResultMsg.find_success, json.toJson(userPage));
     }
 
 
