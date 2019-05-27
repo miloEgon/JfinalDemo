@@ -5,7 +5,6 @@ import com.demo.utils.PageUtil;
 import com.demo.utils.ResultCode;
 import com.demo.utils.ResultMsg;
 import com.jfinal.aop.Clear;
-import com.jfinal.json.FastJson;
 import com.jfinal.json.Json;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Page;
@@ -44,7 +43,7 @@ public class UserController extends BaseController {
         /*Page<User> users = User.dao.paginate(pageNum, pageSize, select, sql,1,9);
         System.out.println(users);*/
         Page<Record> users = Db.paginate(pageNum, pageSize, select, sql, 1,9);
-        System.out.println(users);
+//        System.out.println(users);
         doResult(ResultCode.success, ResultMsg.find_success, json.toJson(users));
     }
 
