@@ -1,9 +1,11 @@
 package com.demo.controller;
 
 import com.demo.entity.User;
+import com.demo.utils.PageUtil;
 import com.demo.utils.ResultCode;
 import com.demo.utils.ResultMsg;
 import com.jfinal.aop.Clear;
+import com.jfinal.json.FastJson;
 import com.jfinal.json.Json;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Page;
@@ -30,14 +32,20 @@ public class UserController extends BaseController {
         /*String json = getRawData();
         User user = FastJson.getJson().parse(json, User.class);*/
 
-        Integer pageNum = getParaToInt("pageNum");
-        Integer pageSize = getParaToInt("pageSize");
+        String info = getInputStreamData();
+        PageUtil bean = getJson2Bean(PageUtil.class, info);
+
+        /*Integer pageNum = getParaToInt("pageNum");
+        Integer pageSize = getParaToInt("pageSize");*/
+        Integer pageNum = bean.getPageNum();
+        Integer pageSize = bean.getPageSize();
         String select = "select *";
         String sql = "from user where id > ? and id < ?";
-        Page<User> users = User.dao.paginate(pageNum, pageSize, select, sql,1,9);
-        Page<Record> userPage = Db.paginate(pageNum, pageSize, select, sql, 1,9);
-        System.out.println(users+"--"+userPage);
-        doResult(ResultCode.success, ResultMsg.find_success, json.toJson(userPage));
+        /*Page<User> users = User.dao.paginate(pageNum, pageSize, select, sql,1,9);
+        System.out.println(users);*/
+        Page<Record> users = Db.paginate(pageNum, pageSize, select, sql, 1,9);
+        System.out.println(users);
+        doResult(ResultCode.success, ResultMsg.find_success, json.toJson(users));
     }
 
 

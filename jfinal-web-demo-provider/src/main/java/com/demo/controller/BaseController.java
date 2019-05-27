@@ -1,13 +1,13 @@
 package com.demo.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.parser.Feature;
 import com.jfinal.core.Controller;
-import com.jfinal.json.FastJson;
-import com.jfinal.kit.HttpKit;
-import com.jfinal.kit.StrKit;
-import com.jfinal.plugin.activerecord.Record;
 import net.sf.json.JSONObject;
 
-import java.util.Map;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 public class BaseController extends Controller {
 
@@ -21,6 +21,40 @@ public class BaseController extends Controller {
         obj.put("message", message);
         obj.put("data", data);
         renderJson(obj);
+    }
+
+    /**
+     * 获取数据方法，某些情况能用
+     * application/x-www-form-urlencoded不能使用
+     * multipart/form-data不能使用
+     *
+     * @return
+     */
+    public String getInputStreamData() {
+        StringBuilder sb = new StringBuilder();
+        BufferedReader reader = null;
+        try {
+            reader = new BufferedReader(new InputStreamReader(getRequest().getInputStream(), "UTF-8"));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                sb.append(line).append("\n");
+            }
+            return sb.toString();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        } finally {
+            if (reader != null) {
+                try {
+                    reader.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    public <T> T getJson2Bean(Class<T> clazz, String info) {
+        return JSON.parseObject(info, clazz, Feature.UseBigDecimal);
     }
 
     /*public Record getArgsRecord(){

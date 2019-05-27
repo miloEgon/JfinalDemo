@@ -13,6 +13,7 @@ import com.jfinal.plugin.druid.DruidPlugin;
 import com.jfinal.plugin.redis.RedisPlugin;
 import com.jfinal.render.ViewType;
 import com.jfinal.template.Engine;
+import com.mysql.jdbc.Connection;
 import redis.clients.jedis.JedisPoolConfig;
 
 public class DemoConfig extends JFinalConfig {
@@ -46,17 +47,20 @@ public class DemoConfig extends JFinalConfig {
         plugins.add(dp);
 
         ActiveRecordPlugin arp = new ActiveRecordPlugin(dp);
+        arp.addMapping("user", "id", User.class);
+        arp.setShowSql(true);
+        arp.setTransactionLevel(Connection.TRANSACTION_READ_COMMITTED);
         plugins.add(arp);
-        arp.addMapping("user", User.class);
 
         RedisPlugin redis = new RedisPlugin("bbs", Secrets.redisHost, Secrets.redisPort, Secrets.redisPwd);
         JedisPoolConfig jpc = redis.getJedisPoolConfig();
-        jpc.setMaxTotal(30);
-        jpc.setMaxIdle(10);
-        jpc.setMaxWaitMillis(3000);
-        jpc.setMinEvictableIdleTimeMillis(600000);
-        jpc.setSoftMinEvictableIdleTimeMillis(600000);
-        jpc.setTimeBetweenEvictionRunsMillis(300000);
+        jpc.setMaxTotal(30);//最大活动对象数
+        jpc.setMaxIdle(10);//最大能够保持idel状态的对象数
+        jpc.setMaxWaitMillis(30000);//当池内没有返回对象时，最大等待时间
+        jpc.setTestWhileIdle(true);//如果为true，表示有一个idle object evitor线程对idle object进行扫描，如果validate失败，此object会被从pool中drop掉；这一项只有在timeBetweenEvictionRunsMillis大于0时才有意义；
+        jpc.setMinEvictableIdleTimeMillis(600000);//表示一个对象至少停留在idle状态的最短时间，然后才能被idle object evitor扫描并驱逐；这一项只有在timeBetweenEvictionRunsMillis大于0时才有意义；
+        jpc.setSoftMinEvictableIdleTimeMillis(600000);//在minEvictableIdleTimeMillis基础上，加入了至少minIdle个对象已经在pool里面了。如果为-1，evicted不会根据idle time驱逐任何对象。如果minEvictableIdleTimeMillis>0，则此项设置无意义，且只有在timeBetweenEvictionRunsMillis大于0时才有意义；
+        jpc.setTimeBetweenEvictionRunsMillis(300000);//“空闲链接”检测线程，检测的周期，毫秒数。如果为负值，表示不运行“检测线程”。默认为-1
         plugins.add(redis);
     }
 
