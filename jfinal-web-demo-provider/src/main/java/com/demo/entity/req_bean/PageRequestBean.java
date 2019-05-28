@@ -1,20 +1,13 @@
-package com.demo.utils;
+package com.demo.entity.req_bean;
 
-public class PageUtil {
+/**
+ * 分页请求Bean
+ */
+public class PageRequestBean {
 
     private Integer pageNum = 1;
 
     private Integer pageSize = 4;
-
-    private Long id;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public Integer getPageNum() {
         return pageNum;

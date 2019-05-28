@@ -1,7 +1,5 @@
 package com.demo.utils;
 
-import redis.clients.jedis.Jedis;
-
 public class Secrets {
 
     //小程序ID
@@ -10,28 +8,22 @@ public class Secrets {
     //小程序密钥
     public static final String appSecret = "47099fa82e776cc3991f9b8ce0206fe5";
 
-    //redis主机
-    public static final String redisHost = "122.112.216.37";
+    //微信服务器地址
+    public static final String WX_URL = "https://api.weixin.qq.com/sns/jscode2session?appid=APPID&secret=SECRET&js_code=JSCODE&grant_type=authorization_code";
 
-    //redis密码
-    public static final String redisPwd = "Xjq/dj2019";
+    //黄丽萍的code
+    public static final String code = "023flg731CBPtR1Xd3831XAS631flg7Y";
 
-    //redis端口
-    public static final Integer redisPort = 6379;
+    //成功状态
+    public static final String success_status = "0";
 
-    //mysql主机
-    public static final String jdbcUrl = "jdbc:mysql://122.112.216.37/demo";
+    //失败状态
+    public static final String error_status = "-1";
 
-    //mysql用户
-    public static final String jdbcUsername = "root";
+    //成功消息
+    public static final String success_msg = "ok";
 
-    //mysql密码
-    public static final String jdbcPassword = "Xjq/dj2019";
-
-    public static final Jedis jedis = new Jedis(Secrets.redisHost);
-
-    static {
-        jedis.auth(Secrets.redisPwd);
-    }
+    //失败消息
+    public static final String error_msg = "error";
 
 }

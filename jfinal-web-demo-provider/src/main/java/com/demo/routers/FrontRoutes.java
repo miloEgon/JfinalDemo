@@ -11,5 +11,6 @@ public class FrontRoutes extends Routes {
         add("/user", UserController.class);
         add("/mini", MiniProController.class);
         add("/redis", RedisController.class);
+        add("/house", EstateController.class);
     }
 }

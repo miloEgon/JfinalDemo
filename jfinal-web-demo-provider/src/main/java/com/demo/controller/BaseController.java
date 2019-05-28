@@ -4,12 +4,21 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.parser.Feature;
 import com.jfinal.core.Controller;
 import net.sf.json.JSONObject;
+import com.demo.exception.ApplicationException;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Set;
 
 public class BaseController extends Controller {
+
+    protected static ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+    protected static Validator validator = factory.getValidator();
 
     public void doResult(Object code, String message, Object data) {
         result(code, message, data);
@@ -21,6 +30,22 @@ public class BaseController extends Controller {
         obj.put("message", message);
         obj.put("data", data);
         renderJson(obj);
+    }
+
+    public void OK() {
+        result(0, "ok", null);
+    }
+
+    public void OK(Object data) {
+        result(0, "ok", data);
+    }
+
+    public void ERROR(int code, String message) {
+        result(code, message, null);
+    }
+
+    public void ERROR(int code, String message, Object data) {
+        result(code, message, data);
     }
 
     /**
@@ -57,18 +82,16 @@ public class BaseController extends Controller {
         return JSON.parseObject(info, clazz, Feature.UseBigDecimal);
     }
 
-    /*public Record getArgsRecord(){
-        String jsonStr = HttpKit.readData(getRequest());
-        System.out.println("接收的JSON参数："+jsonStr);
-        if(StrKit.notBlank(jsonStr)){
-            @SuppressWarnings("unchecked")
-            Map<String,Object> ls = FastJson.getJson().parse(jsonStr, Map.class);
-            Record r = new Record().setColumns(ls);
-            System.out.println("转换为Record后的JSON参数："+r.toJson());
-            return r;
-        } else {
-            return new Record();
+    /**
+     * 使用hibernate-validator实现的JSR303验证model
+     */
+    public <M> void JSR303Validator(M model) {
+        Set<ConstraintViolation<M>> constraintViolations = validator.validate(model);
+        if (constraintViolations.size() == 0)
+            return;
+        for (ConstraintViolation<M> c : constraintViolations) {
+            throw new ApplicationException(c.getMessage(), 10000, null);
         }
-    }*/
+    }
 
 }

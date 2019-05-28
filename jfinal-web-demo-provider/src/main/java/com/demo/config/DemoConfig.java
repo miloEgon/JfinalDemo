@@ -1,5 +1,6 @@
 package com.demo.config;
 
+import com.demo.common.Dict;
 import com.demo.entity.User;
 import com.demo.interceptor.GlobalActionInterceptor;
 import com.demo.interceptor.GlobalServiceInterceptor;
@@ -20,14 +21,16 @@ public class DemoConfig extends JFinalConfig {
 
     @Override
     public void configConstant(Constants constants) {
-        constants.setDevMode(true);
         constants.setUrlParaSeparator("&");
         constants.setViewType(ViewType.JFINAL_TEMPLATE);
         /*constants.setBaseDownloadPath("files");*/
         constants.setBaseDownloadPath("D:/downloads");
         constants.setBaseUploadPath("files");
-        // 开启对 jfinal web 项目组件 Controller、Interceptor、Validator 的注入
-        constants.setInjectDependency(true);
+        constants.setInjectDependency(true); // 开启对 jfinal web 项目组件 Controller、Interceptor、Validator 的注入
+
+        loadPropertyFile("play.properties");
+        constants.setDevMode(getPropertyToBoolean(Dict.CONFIG_JFINAL_MODE, false));
+      //constants.setDevMode(true);
     }
 
     @Override
@@ -43,16 +46,20 @@ public class DemoConfig extends JFinalConfig {
 
     @Override
     public void configPlugin(Plugins plugins) {
-        DruidPlugin dp = new DruidPlugin(Secrets.jdbcUrl, Secrets.jdbcUsername, Secrets.jdbcPassword);
-        plugins.add(dp);
+        //配置Mysql数据库连接相关配置
+        PluginFactory.startActiveRecordPlugin(plugins);
+        //配置Redis缓存相关配置
+        PluginFactory.startRedisPlugin(plugins, "bbs");
 
+
+        /*DruidPlugin dp = new DruidPlugin(Secrets.jdbcUrl, Secrets.jdbcUsername, Secrets.jdbcPassword);
+        plugins.add(dp);
         ActiveRecordPlugin arp = new ActiveRecordPlugin(dp);
         arp.addMapping("user", "id", User.class);
         arp.setShowSql(true);
         arp.setTransactionLevel(Connection.TRANSACTION_READ_COMMITTED);
-        plugins.add(arp);
-
-        RedisPlugin redis = new RedisPlugin("bbs", Secrets.redisHost, Secrets.redisPort, Secrets.redisPwd);
+        plugins.add(arp);*/
+        /*RedisPlugin redis = new RedisPlugin("bbs", Secrets.redisHost, Secrets.redisPort, Secrets.redisPwd);
         JedisPoolConfig jpc = redis.getJedisPoolConfig();
         jpc.setMaxTotal(30);//最大活动对象数
         jpc.setMaxIdle(10);//最大能够保持idel状态的对象数
@@ -61,7 +68,7 @@ public class DemoConfig extends JFinalConfig {
         jpc.setMinEvictableIdleTimeMillis(600000);//表示一个对象至少停留在idle状态的最短时间，然后才能被idle object evitor扫描并驱逐；这一项只有在timeBetweenEvictionRunsMillis大于0时才有意义；
         jpc.setSoftMinEvictableIdleTimeMillis(600000);//在minEvictableIdleTimeMillis基础上，加入了至少minIdle个对象已经在pool里面了。如果为-1，evicted不会根据idle time驱逐任何对象。如果minEvictableIdleTimeMillis>0，则此项设置无意义，且只有在timeBetweenEvictionRunsMillis大于0时才有意义；
         jpc.setTimeBetweenEvictionRunsMillis(300000);//“空闲链接”检测线程，检测的周期，毫秒数。如果为负值，表示不运行“检测线程”。默认为-1
-        plugins.add(redis);
+        plugins.add(redis);*/
     }
 
     @Override
