@@ -27,12 +27,15 @@ public class UserController extends BaseController {
         else renderText("delete error");
     }
 
-    public void find() {
-        /*String json = getRawData();
-        User user = FastJson.getJson().parse(json, User.class);*/
+    public void findById() {
+        PageUtil bean = getJson2Bean(PageUtil.class, getInputStreamData());
+        System.out.println(bean.getId());
+        User user = User.dao.findById(bean.getId());
+        doResult(ResultCode.success, ResultMsg.find_success, json.toJson(user));
+    }
 
-        String info = getInputStreamData();
-        PageUtil bean = getJson2Bean(PageUtil.class, info);
+    public void findByPage() {
+        PageUtil bean = getJson2Bean(PageUtil.class, getInputStreamData());
 
         /*Integer pageNum = getParaToInt("pageNum");
         Integer pageSize = getParaToInt("pageSize");*/

@@ -8,11 +8,12 @@ import net.sf.json.JSONException;
 import net.sf.json.JSONObject;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.StringUtils;
-//import org.slf4j.Logger;
-//import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.Map;
+
+//import org.slf4j.Logger;
+//import org.slf4j.LoggerFactory;
 
 public class MiniProController extends BaseController {
 

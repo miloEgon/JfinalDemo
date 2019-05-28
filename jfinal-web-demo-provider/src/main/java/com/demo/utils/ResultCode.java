@@ -9,8 +9,8 @@ package com.demo.utils;
  **/
 public class ResultCode {
 
-    public static final Integer success = 1;
+    public static final Integer success = 0;
 
-    public static final Integer error = 0;
+    public static final Integer error = -1;
 
 }
