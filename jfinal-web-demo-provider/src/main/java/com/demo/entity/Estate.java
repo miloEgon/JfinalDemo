@@ -4,8 +4,11 @@ import com.demo.common.JPAModel;
 import com.demo.common.Table;
 import org.hibernate.validator.constraints.Length;
 
+import java.util.List;
+
 @Table(tableName="tb_estate")
 public class Estate extends JPAModel<Estate> {
+
     public static final Estate dao = new Estate().dao();
 
     @Length(max = 64)
@@ -22,10 +25,6 @@ public class Estate extends JPAModel<Estate> {
 
     @Length(max = 64)
     public String getMasterId() { return get("master_id"); } //第三方SID
-
-/*    public java.sql.Timestamp getCreateDate() { return get("create_date"); } //创建时间
-
-    public java.sql.Timestamp getModifyDate() { return get("modify_date"); } //修改时间*/
 
     public Object getCreateDate() { return get("create_date"); } //创建时间
 
@@ -45,23 +44,33 @@ public class Estate extends JPAModel<Estate> {
 
     public Estate setModifyDate(Object modify_date) { return set("modify_date", modify_date); }
 
-    /*private String createTime;
+    private Integer floors; // 楼层数
 
-    private String modifyTime;
+    private Integer rooms; // 房间数
 
-    public String getCreateTime() {
-        return createTime;
+    private List<Floor> floorList; // 楼层集合
+
+    public Integer getFloors() {
+        return floors;
     }
 
-    public String getModifyTime() {
-        return modifyTime;
+    public Integer getRooms() {
+        return rooms;
     }
 
-    public void setCreateTime(String createTime) {
-        this.createTime = createTime;
+    public void setFloors(Integer floors) {
+        this.floors = floors;
     }
 
-    public void setModifyTime(String modifyTime) {
-        this.modifyTime = modifyTime;
-    }*/
+    public void setRooms(Integer rooms) {
+        this.rooms = rooms;
+    }
+
+    public List<Floor> getFloorList() {
+        return floorList;
+    }
+
+    public void setFloorList(List<Floor> floorList) {
+        this.floorList = floorList;
+    }
 }

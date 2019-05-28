@@ -2,6 +2,7 @@ package com.demo.common;
 
 import com.demo.entity.Estate;
 import com.demo.entity.EstateEntity;
+import com.demo.entity.Floor;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 
 /**
@@ -17,7 +18,7 @@ public class MappingModel {
 
         arp.addMapping("tb_estate","id", Estate.class);
 
-        arp.addMapping("tb_estate","id", EstateEntity.class);
+        arp.addMapping("tb_floor","id", Floor.class);
 
 //        arp.addMapping("tb_room","id",RoomBean.class);
 //

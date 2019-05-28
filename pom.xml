@@ -29,6 +29,9 @@
         <fastjson.version>1.2.24</fastjson.version>
         <javax.persistence.version>2.1.0</javax.persistence.version>
         <hibernate-validator.version>5.3.4.Final</hibernate-validator.version>
+        <javase.version>3.1.0</javase.version>
+        <core.version>3.1.0</core.version>
+        <commons-pool2.version>2.2</commons-pool2.version>
     </properties>
 
     <!--集中声明依赖-->
@@ -86,7 +89,7 @@
             <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-pool2</artifactId>
-                <version>2.2</version>
+                <version>${commons-pool2.version}</version>
             </dependency>
             <dependency>
                 <groupId>redis.clients</groupId>
@@ -123,6 +126,16 @@
                 <groupId>org.hibernate</groupId>
                 <artifactId>hibernate-validator</artifactId>
                 <version>${hibernate-validator.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.zxing</groupId>
+                <artifactId>javase</artifactId>
+                <version>${javase.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.zxing</groupId>
+                <artifactId>core</artifactId>
+                <version>${core.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

@@ -1,7 +1,6 @@
 package com.demo.service;
 
 import com.demo.entity.Estate;
-import com.demo.entity.EstateEntity;
 import com.demo.entity.req_bean.PageRequestBean;
 import com.jfinal.plugin.activerecord.Page;
 
