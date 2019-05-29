@@ -36,21 +36,11 @@ public class RoomService {
         for (String floor:floors) {
             sql = sql.append(floor+",");
         }
-        sql = sql.replace(sql.length()-1,sql.length(), " )");
+        sql = sql.replace(sql.length()-1, sql.length(), " )");
 
         List<Record> records = Db.find(sql.toString());
         return records.get(0).get("count");
     }
-
-    /*public static void main(String[] args) {
-        List<String> floors = new ArrayList<>();
-        floors.add("09849f1b00adedae57e018ea56c1c1eb");
-        floors.add("034344209a08060b8b64455cc4eb9d36");
-        floors.add("8cb5e516240b94c257393b4fbbca5e66");
-        floors.add("266beb415c2e4fe7b810a1a32d2aedf5");
-
-        countRooms(floors);
-    }*/
 
 
 

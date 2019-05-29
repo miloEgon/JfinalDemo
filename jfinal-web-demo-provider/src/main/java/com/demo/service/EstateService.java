@@ -2,6 +2,7 @@ package com.demo.service;
 
 import com.demo.entity.PageRequestBean;
 import com.demo.entity.estate.EstateSaveBean;
+import com.demo.entity.floor.Floor;
 import com.demo.utils.DeanUtils;
 import com.demo.utils.EncryptionType;
 import com.demo.utils.MD5Util;
@@ -32,37 +33,32 @@ public class EstateService {
     }
 
     public Object batchSave(EstateSaveBean bean) {
-        bean.setId(MD5Util.encryption(EncryptionType.estate_id+DeanUtils.df.format(new Date())+DeanUtils.getRandom(10000)));
-        bean.setCreate_date(DeanUtils.getTimeStamp());
-        bean.setModify_date(DeanUtils.getTimeStamp());
-
         Record record = new Record()
-                .set("id", bean.getId())
+                .set("id", MD5Util.encryption(EncryptionType.estate_id+DeanUtils.df.format(new Date())+DeanUtils.getRandom(10000)))
                 .set("name", bean.getName())
                 .set("area_code", bean.getArea_code())
                 .set("address", bean.getAddress())
                 .set("master_id", bean.getMaster_id())
-                .set("create_date", bean.getCreate_date())
-                .set("modify_date", bean.getModify_date());
+                .set("create_date", DeanUtils.getTimeStamp())
+                .set("modify_date", DeanUtils.getTimeStamp());
         boolean flag = Db.save("tb_estate", record);
         if (flag) return "新增房产成功";
         return "新增房产失败";
     }
 
     public Record findEstateById(String estate_id) {
-        Record record = Db.findById("tb_estate", estate_id);
-        List<Record> records = Db.find("select * from tb_floor where estate_id = ? order by name", estate_id);
-        List<Object> objects = new ArrayList<>();
-        for (Record r : records) { objects.add(r); }
-        record.set("floorList",objects);
-        record.set("floors",objects.size());
-
-
-//        roomService.countRooms();
+//        Record record = Db.findById("tb_estate", estate_id);
+        Record record = Db.findFirst("select name,address,id from tb_estate where id = ?", estate_id);
+        List<Record> records = Db.find("select name,id from tb_floor where estate_id = ? order by name", estate_id);
+        record.set("floorList",records);
+        record.set("floors",records.size());
+        List<String> floor_ids = new ArrayList<>();
+        for (Record r : records) {
+            String id = String.valueOf(r.get("id"));
+            floor_ids.add("\""+id+"\"");
+        }
+        record.set("rooms",roomService.countRooms(floor_ids));
         return record;
-
-
-
     }
 
 
