@@ -1,35 +1,37 @@
 package com.demo.service;
 
-import com.demo.entity.PageRequestBean;
 import com.demo.entity.estate.EstateSaveBean;
-import com.demo.entity.floor.Floor;
 import com.demo.utils.DeanUtils;
 import com.demo.utils.EncryptionType;
 import com.demo.utils.MD5Util;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 public class EstateService {
 
-    private static final Logger logger = LoggerFactory.getLogger(EstateService.class);
-
     RoomService roomService = new RoomService();
 
-    public Page<Record> findEstates(PageRequestBean bean) {
+    public Record findEstates(Map bean) {
         /*Page<Estate> estates = Estate.dao.paginate(pageNum, pageSize, select, sql);
         for (Estate estate : estates.getList()) {
             estate.setCreateDate(DeanUtils.df.format(estate.getCreateDate()));
             estate.setModifyDate(DeanUtils.df.format(estate.getModifyDate()));
         }*/
-        Page<Record> estates = Db.paginate(bean.getPageNum(), bean.getPageSize(), "select *", "from tb_estate");
-        return estates;
+        Page<Record> estates = Db.paginate(Integer.valueOf(String.valueOf(bean.get("pageNum"))), Integer.valueOf(String.valueOf(bean.get("pageSize"))), "select *", "from tb_estate");
+        Record record = new Record();
+        record.set("list",estates.getList());
+        record.set("pageNumber",estates.getPageNumber());
+        record.set("pageSize",estates.getPageSize());
+        record.set("totalPage",estates.getTotalPage());
+        record.set("totalRow",estates.getTotalRow());
+
+        return record;
     }
 
     public Object batchSave(EstateSaveBean bean) {
@@ -46,10 +48,10 @@ public class EstateService {
         return "新增房产失败";
     }
 
-    public Record findEstateById(String estate_id) {
+    public Record findEstateById(Map bean) {
 //        Record record = Db.findById("tb_estate", estate_id);
-        Record record = Db.findFirst("select name,address,id from tb_estate where id = ?", estate_id);
-        List<Record> records = Db.find("select name,id from tb_floor where estate_id = ? order by name", estate_id);
+        Record record = Db.findFirst("select name,address,id from tb_estate where id = ?", bean.get("estate_id"));
+        List<Record> records = Db.find("select name,id from tb_floor where estate_id = ? order by name", bean.get("estate_id"));
         record.set("floorList",records);
         record.set("floors",records.size());
         List<String> floor_ids = new ArrayList<>();

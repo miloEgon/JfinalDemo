@@ -3,6 +3,7 @@ package com.demo.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.parser.Feature;
 import com.jfinal.core.Controller;
+import com.jfinal.plugin.activerecord.Record;
 import net.sf.json.JSONObject;
 import com.demo.exception.ApplicationException;
 
@@ -30,6 +31,14 @@ public class BaseController extends Controller {
         obj.put("message", message);
         obj.put("data", data);
         renderJson(obj);
+    }
+
+    public void resultRecord(Object code, String message, Object data) {
+        Record record = new Record();
+        record.set("code", code);
+        record.set("message", message);
+        record.set("data", data);
+        renderText(record.toJson());
     }
 
     public void OK() {
