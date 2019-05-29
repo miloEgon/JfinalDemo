@@ -1,46 +1,32 @@
-package com.demo.entity;
+package com.demo.entity.estate;
 
-import com.jfinal.plugin.activerecord.Model;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotBlank;
 
 import java.sql.Timestamp;
 
-public class EstateEntity extends Model<EstateEntity> {
+public class EstateSaveBean {
 
-    public static final EstateEntity dao = new EstateEntity().dao();
-
+    @Length(max=64)
     private String id;
 
+    @Length(max=100)
+    @NotBlank(message = "房源名不可为空")
     private String name;
 
+    @Length(max=6)
     private String area_code;
 
+    @Length(max=300)
+    @NotBlank(message = "房源地址不可为空")
     private String address;
 
+    @Length(max=64)
     private String master_id;
 
     private Timestamp create_date;
 
     private Timestamp modify_date;
-
-    public String getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getArea_code() {
-        return area_code;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public String getMaster_id() {
-        return master_id;
-    }
 
     public void setId(String id) {
         this.id = id;
@@ -62,19 +48,39 @@ public class EstateEntity extends Model<EstateEntity> {
         this.master_id = master_id;
     }
 
-    public Timestamp getCreate_date() {
-        return create_date;
-    }
-
-    public Timestamp getModify_date() {
-        return modify_date;
-    }
-
     public void setCreate_date(Timestamp create_date) {
         this.create_date = create_date;
     }
 
     public void setModify_date(Timestamp modify_date) {
         this.modify_date = modify_date;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getArea_code() {
+        return area_code;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public String getMaster_id() {
+        return master_id;
+    }
+
+    public Timestamp getCreate_date() {
+        return create_date;
+    }
+
+    public Timestamp getModify_date() {
+        return modify_date;
     }
 }

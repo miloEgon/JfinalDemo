@@ -1,4 +1,4 @@
-package com.demo.entity.req_bean;
+package com.demo.entity;
 
 /**
  * 分页请求Bean

@@ -1,4 +1,4 @@
-package com.demo.entity;
+package com.demo.entity.floor;
 
 import com.demo.common.JPAModel;
 import com.demo.common.Table;

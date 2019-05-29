@@ -67,7 +67,7 @@ public class MiniProController extends BaseController {
      * @return
      */
     public static Map<Object, Object> getOpenId(String code) {
-        String status = Secrets.success_status;
+        Integer status = Secrets.success_status;
         String msg = Secrets.success_msg;
         Map<Object, Object> map = new HashMap<Object, Object>();
         try {

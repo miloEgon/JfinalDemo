@@ -15,10 +15,10 @@ public class Secrets {
     public static final String code = "023flg731CBPtR1Xd3831XAS631flg7Y";
 
     //成功状态
-    public static final String success_status = "0";
+    public static final Integer success_status = 0;
 
     //失败状态
-    public static final String error_status = "-1";
+    public static final Integer error_status = -1;
 
     //成功消息
     public static final String success_msg = "ok";

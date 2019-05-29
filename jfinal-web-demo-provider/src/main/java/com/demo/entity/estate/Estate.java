@@ -1,7 +1,8 @@
-package com.demo.entity;
+package com.demo.entity.estate;
 
 import com.demo.common.JPAModel;
 import com.demo.common.Table;
+import com.demo.entity.floor.Floor;
 import org.hibernate.validator.constraints.Length;
 
 import java.util.List;
@@ -58,16 +59,16 @@ public class Estate extends JPAModel<Estate> {
         return rooms;
     }
 
+    public List<Floor> getFloorList() {
+        return floorList;
+    }
+
     public void setFloors(Integer floors) {
         this.floors = floors;
     }
 
     public void setRooms(Integer rooms) {
         this.rooms = rooms;
-    }
-
-    public List<Floor> getFloorList() {
-        return floorList;
     }
 
     public void setFloorList(List<Floor> floorList) {

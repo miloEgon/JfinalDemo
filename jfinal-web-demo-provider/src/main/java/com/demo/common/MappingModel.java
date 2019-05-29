@@ -1,8 +1,8 @@
 package com.demo.common;
 
-import com.demo.entity.Estate;
-import com.demo.entity.EstateEntity;
-import com.demo.entity.Floor;
+import com.demo.entity.estate.Estate;
+import com.demo.entity.floor.Floor;
+import com.demo.entity.room.Room;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 
 /**
@@ -18,9 +18,11 @@ public class MappingModel {
 
         arp.addMapping("tb_estate","id", Estate.class);
 
+//        arp.addMapping("tb_estate","id", EstateSaveBean.class);
+
         arp.addMapping("tb_floor","id", Floor.class);
 
-//        arp.addMapping("tb_room","id",RoomBean.class);
+        arp.addMapping("tb_room","id", Room.class);
 //
 //        arp.addMapping("tb_device_log","id",DeviceLogBean.class);
 //
