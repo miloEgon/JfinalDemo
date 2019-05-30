@@ -8,11 +8,12 @@ import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Record;
 
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 public class FloorService {
 
     public Object save(FloorSaveBean bean) {
-
         Record record = new Record()
                 .set("id", MD5Util.encryption(EncryptionType.floor_id+DeanUtils.df.format(new Date())+DeanUtils.getRandom(10000)))
                 .set("name", bean.getName())
@@ -23,5 +24,10 @@ public class FloorService {
         boolean flag = Db.save("tb_floor", record);
         if (flag) return "新增楼层成功";
         return "新增楼层失败";
+    }
+
+    public List<Record> findRooms(Map bean) {
+        List<Record> records = Db.find("select id, number from tb_room where floor_id = ? order by number", bean.get("floor_id"));
+        return records;
     }
 }

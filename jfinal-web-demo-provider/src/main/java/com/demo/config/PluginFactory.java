@@ -2,6 +2,8 @@ package com.demo.config;
 
 import com.demo.common.Dict;
 import com.demo.common.MappingModel;
+import com.demo.common.Play;
+import com.demo.common.ZbusRpcPlugin;
 import com.jfinal.config.Plugins;
 import com.jfinal.kit.PropKit;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
@@ -51,6 +53,10 @@ public class PluginFactory {
         me.add(redis);
     }
 
+    public static void startZbusPlugin(Plugins me) {
+        ZbusRpcPlugin zbusRpcPlugin = new ZbusRpcPlugin(Play.getProperty("rpc.zbus.host"));
+        me.add(zbusRpcPlugin);
+    }
 
     public static String getProperty(String key) {
         return PropKit.use("play.properties", "UTF-8").get(key);

@@ -1,31 +1,46 @@
 package com.demo.controller;
 
-import com.jfinal.aop.Clear;
-import com.jfinal.plugin.redis.Cache;
-import com.jfinal.plugin.redis.Redis;
-import org.apache.commons.codec.digest.DigestUtils;
-
-import java.util.HashMap;
-import java.util.Map;
+import com.demo.service.DeviceOperationService;
+import com.demo.utils.KCode;
+import com.jfinal.core.ActionKey;
 
 public class RedisController extends BaseController {
 
-    private final static Cache cache = Redis.use("bbs");
-
-    private final String openid = "ZKFDAFJK005ASKFDAS02";
-
-    private final String session_key = "SESSIONDFASJKLFD1120";
-
-    @Clear
+    @ActionKey("/redis/setKey")
     public void setKey() {
-        String rd_session = DigestUtils.md5Hex(openid.concat(session_key));
-        Map<Object, Object> map = new HashMap<Object, Object>();
-        map.put("openid",openid);
-        map.put("session_key",session_key);
-//        cache.setex(rd_session, 60, map);
-        cache.set(rd_session,map);
-        doResult(1,"保存成功", rd_session);
+        String openid = "onTbc4oKkd1OyaW3-4U3mqaM_Z-A";
+        String key = KCode.GUID();
+        DeviceOperationService.cacheOperationInfoById("openid:"+key, openid, false);
+        OK(key);
     }
+
+    @ActionKey("/redis/getKey")
+    public void getKey() {
+        /*Map bean = getJson2Bean(Map.class, getInputStreamData());
+        String param = (String) bean.get("param");*/
+        String param = getHeader("rd_session");
+        String openid = (String) DeviceOperationService.getOperationInfoById("openid:" + param);
+        OK(openid);
+    }
+
+
+
+
+
+
+
+
+
+//    @Clear
+//    public void setKey() {
+//        String rd_session = DigestUtils.md5Hex(openid.concat(session_key));
+//        Map<Object, Object> map = new HashMap<Object, Object>();
+//        map.put("openid",openid);
+//        map.put("session_key",session_key);
+////        cache.setex(rd_session, 60, map);
+//        cache.set(rd_session,map);
+//        doResult(1,"保存成功", rd_session);
+//    }
 
     public void hello() {
         /*String rd_session = getHeader("rd_session");

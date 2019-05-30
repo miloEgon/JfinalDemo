@@ -7,7 +7,6 @@ import com.demo.utils.MD5Util;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Record;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 

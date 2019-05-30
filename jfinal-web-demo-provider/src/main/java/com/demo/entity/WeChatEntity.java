@@ -31,4 +31,5 @@ public class WeChatEntity {
     public String getSession_key() {
         return session_key;
     }
+
 }
