@@ -17,22 +17,26 @@ public class EstateController extends BaseController {
 
     EstateService service = new EstateService();
 
+    /**
+     * 分页展示房产列表
+     */
     @ActionKey("/house/findEstates")
     public void findEstates() {
         PageEntity bean = getJson2Bean(PageEntity.class, getInputStreamData());
         bean.setAuthKey(getHeader("rd_session"));
         JSR303Validator(bean);
         OK(service.findEstates(bean));
-//        resultRecord(Secrets.success_status, Secrets.success_msg, service.findEstates(bean));
     }
 
+    /**
+     * 打开房产详情
+     */
     @ActionKey("/house/findEstateById")
     public void findEstateById() {
         Map bean = getJson2Bean(Map.class, getInputStreamData());
         if (StrKit.isBlank((String) bean.get("estate_id")))
             throw new ApplicationException("房产ID为空",-1,null);
         OK(service.findEstateById(bean));
-//        resultRecord(Secrets.success_status, Secrets.success_msg, service.findEstateById(bean));
     }
 
     /**
@@ -44,7 +48,6 @@ public class EstateController extends BaseController {
         if (StrKit.isBlank((String) bean.get("floor_id")))
             throw new ApplicationException("楼层ID为空",-1,null);
         OK(service.findRooms(bean));
-//        resultRecord(Secrets.success_status, Secrets.success_msg, service.findRooms(bean));
     }
 
 
@@ -56,10 +59,9 @@ public class EstateController extends BaseController {
     @ActionKey("/house/insertEstate")
     public void insertEstate() {
         EstateSaveBean bean = getJson2Bean(EstateSaveBean.class, getInputStreamData());
-        JSR303Validator(bean);
         bean.setMaster_id(getHeader("SID"));
-        Object obj = service.batchSave(bean);
-        OK(obj);
+        JSR303Validator(bean);
+        OK(service.batchSave(bean));
     }
 
 

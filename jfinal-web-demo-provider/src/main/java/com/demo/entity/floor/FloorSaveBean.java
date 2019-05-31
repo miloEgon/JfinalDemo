@@ -15,10 +15,11 @@ public class FloorSaveBean {
     private String estate_id;
 
     @Length(max = 64)
-    @NotBlank(message = "楼层名称不为空")
+    /*@NotBlank(message = "楼层名称不为空")*/
     private String name;
 
     @Length(max = 64)
+    @NotBlank(message = "第三方SID不为空")
     private String master_id;
 
     private Timestamp create_date;

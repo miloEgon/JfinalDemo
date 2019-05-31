@@ -1,42 +1,29 @@
 package com.demo.service;
 
-import com.demo.entity.gateway.Gateway;
-import com.demo.factory.RpcServiceIIFactory;
+import com.demo.entity.gateway.GatewaySaveBean;
+import com.demo.entity.gateway.RequestBean;
+import com.demo.utils.DeanUtils;
+import com.demo.utils.KCode;
+
+import java.util.List;
 
 public class GatewayService {
 
-    private IGatewayServiceII gatewayService = RpcServiceIIFactory.createGatewayService();
-
-    public Object testRPC() {
-        String id = "CXAA17AAA0100417";
-        Gateway gateway = gatewayService.getGatewayById(id);
-        return gateway;
+    public Object addGateway(RequestBean bean) {
+        String sql = "insert into `tb_estate_gateway`( `id`, `estate_id`, `gateway_id`, `gateway_name`, `create_date`, `modify_date` ) values ";
+        String begin = "( ", prefix = "\"", suffix = "\", ", end = " ),";
+        StringBuilder sb = new StringBuilder(sql);
+        List<GatewaySaveBean> list = bean.getList();
+        for (GatewaySaveBean gateway:list) {
+            sb = sb.append( begin+prefix+ KCode.GUID() +suffix
+                    +prefix+ bean.getEstate_id() +suffix
+                    +prefix+ gateway.getGateway_id() +suffix
+                    +prefix+ gateway.getGateway_name() +suffix
+                    +"NOW()"+", "+"NOW()"+end );
+        }
+        return DeanUtils.myBatchSave(sb.substring(0, sb.length() - 1));
     }
 
-
-
-
-
-
-
-
-
-
-
-/*    public boolean bindGateway(Map bean) {
-//        ResponseEntity resp = DeanUtils.sendRequest(bean, HttpConstant.getBaseUrl()+"/house/bindGateway");
-        ResponseEntity resp = new ResponseEntity(Secrets.success_status, null, Secrets.success_msg);
-        if (resp.getCode() == 0) { //绑定成功
-            return Db.save("tb_estate_gateway", new Record()
-                    .set("id", DeanUtils.getSecretId(EncryptionType.estate_gateway_id))
-                    .set("estate_id", bean.get("estateId"))//网关序列号
-                    .set("gateway_id", bean.get("gatewaySN"))//房源ID
-                    .set("create_date", DeanUtils.getTimeStamp())
-                    .set("modify_date", DeanUtils.getTimeStamp())
-            );
-        }
-        return false;
-    }*/
 
 
 

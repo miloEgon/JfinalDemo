@@ -1,9 +1,10 @@
 package com.demo.utils;
 
 import com.demo.entity.ResponseEntity;
+import com.jfinal.kit.PropKit;
 
 import java.io.IOException;
-import java.sql.Timestamp;
+import java.sql.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -39,6 +40,28 @@ public class DeanUtils {
             e.printStackTrace();
         }
         return JSONUtil.parse2Bean(result, ResponseEntity.class);
+    }
+
+    public static boolean myBatchSave(String sql) {
+        Connection conn = null;
+        Statement stat = null;
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            PropKit.use("play.properties");
+            conn = DriverManager.getConnection(PropKit.get("jdbc.url"), PropKit.get("jdbc.user"), PropKit.get("jdbc.pass"));
+            stat = conn.createStatement();
+            return !stat.execute(sql);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                stat.close();
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return false;
     }
 
 }

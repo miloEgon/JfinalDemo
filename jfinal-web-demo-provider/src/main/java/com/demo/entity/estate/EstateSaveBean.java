@@ -22,6 +22,7 @@ public class EstateSaveBean {
     private String address;
 
     @Length(max=64)
+    @NotBlank(message = "第三方SID不可为空")
     private String master_id;
 
     private Timestamp create_date;

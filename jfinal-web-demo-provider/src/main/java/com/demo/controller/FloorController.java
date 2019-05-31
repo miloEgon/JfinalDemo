@@ -11,14 +11,17 @@ public class FloorController extends BaseController {
     @ActionKey("/floor/insertFloor")
     public void insertFloor() {
         FloorSaveBean bean = getJson2Bean(FloorSaveBean.class, getInputStreamData());
-        JSR303Validator(bean);
         bean.setMaster_id(getHeader("SID"));
-        Object obj = service.save(bean);
-        OK(obj);
+        JSR303Validator(bean);
+        OK(service.save(bean));
     }
 
-
-
-
+    @ActionKey("/floor/insertRoom")
+    public void insertRoom() {
+        FloorSaveBean bean = getJson2Bean(FloorSaveBean.class, getInputStreamData());
+        bean.setMaster_id(getHeader("SID"));
+        JSR303Validator(bean);
+        OK(service.saveRooms(bean));
+    }
 
 }

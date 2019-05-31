@@ -22,26 +22,17 @@ public class EstateService {
         String openid = (String)DeviceOperationService.getOperationInfoById("openid:" + bean.getAuthKey());
         if (StrKit.isBlank(openid))
             throw new ApplicationException("身份验证失败",-1,null);
-
         Page<Record> estates = Db.paginate(
                 bean.getPageNum(),
                 bean.getPageSize(),
                 "select te.id, te.name ",
-                "from tb_estate te, tb_wechat_user wu where wu.open_id = ? and te.master_id = wu.sid", openid);
-
+                "from tb_estate te, tb_wechat_user wu where wu.open_id = ? and te.master_id = wu.sid order by te.modify_date desc", openid);
         Record record = new Record()
                 .set("list",estates.getList())
                 .set("pageNumber",estates.getPageNumber())
                 .set("pageSize",estates.getPageSize())
                 .set("totalPage",estates.getTotalPage())
                 .set("totalRow",estates.getTotalRow());
-
-//        JSONObject data = new JSONObject();
-//        data.put("list",estates.getList());
-//        data.put("pageNumber",estates.getPageNumber());
-//        data.put("pageSize",estates.getPageSize());
-//        data.put("totalPage",estates.getTotalPage());
-//        data.put("totalRow",estates.getTotalRow());
         return record.toJson();
     }
 
@@ -52,28 +43,31 @@ public class EstateService {
         record.set("floors",records.size());
         List<String> floor_ids = new ArrayList<>();
         for (Record r : records) {
-//            String id = String.valueOf(r.get("id"));
             String id = r.get("id");
             floor_ids.add("\""+id+"\"");
         }
         if (floor_ids.size()>0)
             record.set("rooms",roomService.countRooms(floor_ids));
 
-        /*JSONObject data = new JSONObject();
-        data.put("data",record);*/
         return record.toJson();
     }
 
     public Object findRooms(Map bean) {
-        List<Record> records = Db.find("select id, number from tb_room where floor_id = ? order by number", bean.get("floor_id"));
+        List<Record> records = Db.find("select id, name from tb_room where floor_id = ? order by name", bean.get("floor_id"));
         List<Object> list = new ArrayList<>();
         for (Record record : records) {
             list.add(record.toJson());
         }
         return list;
-
-//        return new JSONObject().put("data",records);
     }
+
+
+
+
+
+
+
+
 
     public Object batchSave(EstateSaveBean bean) {
         Record record = new Record()
