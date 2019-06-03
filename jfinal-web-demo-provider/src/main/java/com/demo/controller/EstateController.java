@@ -4,7 +4,6 @@ import com.demo.entity.PageEntity;
 import com.demo.entity.estate.EstateSaveBean;
 import com.demo.exception.ApplicationException;
 import com.demo.service.EstateService;
-import com.demo.utils.Secrets;
 import com.jfinal.core.ActionKey;
 import com.jfinal.kit.StrKit;
 
@@ -26,6 +25,8 @@ public class EstateController extends BaseController {
         bean.setAuthKey(getHeader("rd_session"));
         JSR303Validator(bean);
         OK(service.findEstates(bean));
+
+//        StringUtils.isEmpty();
     }
 
     /**
