@@ -1,6 +1,8 @@
 package com.demo.service;
 
+import com.alibaba.fastjson.JSONObject;
 import com.demo.entity.PageEntity;
+import com.demo.entity.ReqBean;
 import com.demo.entity.estate.EstateSaveBean;
 import com.demo.exception.ApplicationException;
 import com.demo.utils.DeanUtils;
@@ -17,6 +19,17 @@ import java.util.Map;
 public class EstateService {
 
     RoomService roomService = new RoomService();
+
+    public Object getEstateList(String authKey) {
+        String openid = (String)DeviceOperationService.getOperationInfoById("openid:" + authKey);
+        if (StrKit.isBlank(openid))
+            throw new ApplicationException("身份验证失败",-1,null);
+        List<Record> records = Db.find("select te.id, te.name from tb_estate te, tb_wechat_user wu where wu.open_id = ? and te.master_id = wu.sid order by te.modify_date desc",
+                openid);
+        JSONObject data = new JSONObject();
+        data.put("data", records);
+        return data;
+    }
 
     public Object findEstates(PageEntity bean) {
         String openid = (String)DeviceOperationService.getOperationInfoById("openid:" + bean.getAuthKey());
@@ -36,9 +49,9 @@ public class EstateService {
         return record.toJson();
     }
 
-    public Object findEstateById(Map bean) {
-        Record record = Db.findFirst("select name,address,id from tb_estate where id = ?", bean.get("estate_id"));
-        List<Record> records = Db.find("select name,id from tb_floor where estate_id = ? order by name", bean.get("estate_id"));
+    public Object findEstateById(ReqBean bean) {
+        Record record = Db.findFirst("select name,address,id from tb_estate where id = ?", bean.getEstate_id());
+        List<Record> records = Db.find("select name,id from tb_floor where estate_id = ? order by name", bean.getEstate_id());
         record.set("floorList",records);
         record.set("floors",records.size());
         List<String> floor_ids = new ArrayList<>();
@@ -49,16 +62,38 @@ public class EstateService {
         if (floor_ids.size()>0)
             record.set("rooms",roomService.countRooms(floor_ids));
 
-        return record.toJson();
+        JSONObject data = new JSONObject();
+        data.put("data", record);
+        return data;
+        /*Record record = Db.findFirst("select `name`,address,master_id from tb_estate where id = ?", bean.getEstate_id());
+
+        Record master_id = Db.findFirst("SELECT count(*) as sums FROM `tb_floor` " +
+                " where master_id = ?", record.getStr("master_id"));
+
+        List<Record> records = Db.find("select `name`,id from tb_floor where estate_id = ? order by `name`",
+                bean.getEstate_id());
+
+        record.remove("master_id");
+        record.set("floorList",records);
+        record.set("floors",records.size());
+
+        record.set("rooms",master_id.getLong("sums"));
+
+        JSONObject data = new JSONObject();
+        data.put("data", record);
+        return data;*/
     }
 
     public Object findRooms(Map bean) {
         List<Record> records = Db.find("select id, name from tb_room where floor_id = ? order by name", bean.get("floor_id"));
-        List<Object> list = new ArrayList<>();
+        /*List<Object> list = new ArrayList<>();
         for (Record record : records) {
             list.add(record.toJson());
         }
-        return list;
+        return list;*/
+        JSONObject data = new JSONObject();
+        data.put("data", records);
+        return data;
     }
 
 

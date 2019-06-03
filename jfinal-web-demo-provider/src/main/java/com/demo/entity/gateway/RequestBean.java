@@ -11,6 +11,9 @@ public class RequestBean {
     @NotBlank(message = "房产ID不能为空")
     private String estate_id; //房产ID
 
+    @NotBlank(message = "自定义登录态不能为空")
+    private String authKey; //自定义登录态
+
     private List<GatewaySaveBean> list; //网关List
 
     public String getEstate_id() {
@@ -27,5 +30,13 @@ public class RequestBean {
 
     public void setList(List<GatewaySaveBean> list) {
         this.list = list;
+    }
+
+    public String getAuthKey() {
+        return authKey;
+    }
+
+    public void setAuthKey(String authKey) {
+        this.authKey = authKey;
     }
 }

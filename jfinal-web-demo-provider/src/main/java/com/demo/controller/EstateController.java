@@ -1,6 +1,7 @@
 package com.demo.controller;
 
 import com.demo.entity.PageEntity;
+import com.demo.entity.ReqBean;
 import com.demo.entity.estate.EstateSaveBean;
 import com.demo.exception.ApplicationException;
 import com.demo.service.EstateService;
@@ -22,11 +23,17 @@ public class EstateController extends BaseController {
     @ActionKey("/house/findEstates")
     public void findEstates() {
         PageEntity bean = getJson2Bean(PageEntity.class, getInputStreamData());
-        bean.setAuthKey(getHeader("rd_session"));
+        bean.setAuthKey(getHeader("X-Auth"));
         JSR303Validator(bean);
         OK(service.findEstates(bean));
+}
 
-//        StringUtils.isEmpty();
+    /**
+     * 获取安装师傅名下所有房产
+     */
+    @ActionKey("/house/getEstateList")
+    public void getEstateList() {
+        OK(service.getEstateList(getHeader("X-Auth")));
     }
 
     /**
@@ -34,9 +41,13 @@ public class EstateController extends BaseController {
      */
     @ActionKey("/house/findEstateById")
     public void findEstateById() {
-        Map bean = getJson2Bean(Map.class, getInputStreamData());
+        /*Map bean = getJson2Bean(Map.class, getInputStreamData());
         if (StrKit.isBlank((String) bean.get("estate_id")))
             throw new ApplicationException("房产ID为空",-1,null);
+        OK(service.findEstateById(bean));*/
+        ReqBean bean = getJson2Bean(ReqBean.class, getInputStreamData());
+        bean.setAuthKey(getHeader("X-Auth"));
+        JSR303Validator(bean);
         OK(service.findEstateById(bean));
     }
 

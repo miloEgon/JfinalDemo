@@ -24,28 +24,17 @@ public class GlobalActionInterceptor implements Interceptor{
     public void intercept(Invocation inv) {
         BaseController controller = (BaseController)inv.getController();
         logger.info("Before GlobalActionInterceptor Invoke -- "+service.justDuIt());
-        String rd_session = controller.getHeader("rd_session");//拦截请求头中的自定义登录态
-        logger.info("拦截到的自定义登录态："+rd_session);
-        /*if (null == obj) {
-            controller.doResult(0,"会话过期",null);
+        String authKey = controller.getHeader("X-Auth");//拦截请求头中的自定义登录态
+        logger.info("拦截到的自定义登录态："+authKey);
+        Object openid = cache.get("openid:"+authKey);
+        if ( StringUtils.isEmpty(authKey) ) {
+            controller.ERROR(Secrets.error_status, "Session为空");
+        } else if (null == openid) {
+            controller.ERROR(Secrets.error_status, "Session无效");
         } else {
-            Map<Object, Object> map = (Map<Object, Object>) obj;
-            String openid = String.valueOf(map.get("openid"));
-            String session_key = String.valueOf(map.get("session_key"));
-            if ( DigestUtils.md5Hex(openid.concat(session_key)).equals(rd_session) ) {
-                inv.invoke();
-            } else {
-                controller.doResult(0,"身份认证失败", null);
-            }
-        }*/
-        if ( StringUtils.isEmpty(rd_session) ) {
-            controller.doResult(Secrets.error_status, "Session为空", null);
-        } else {
-            /*Object obj = cache.get(rd_session);
-            logger.info(obj.toString());
-            controller.doResult(Secrets.success_status, Secrets.success_msg, obj);*/
+            logger.info(openid.toString());
             inv.invoke();
+            logger.info("After GlobalActionInterceptor Invoke -- "+service.justDuIt());
         }
-        logger.info("After GlobalActionInterceptor Invoke -- "+service.justDuIt());
     }
 }
