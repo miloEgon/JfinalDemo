@@ -2,19 +2,18 @@ package com.demo.interceptor;
 
 import com.demo.controller.BaseController;
 import com.demo.service.AccountService;
+import com.demo.service.DeviceOperationService;
 import com.demo.utils.Secrets;
 import com.jfinal.aop.Inject;
 import com.jfinal.aop.Interceptor;
 import com.jfinal.aop.Invocation;
-import com.jfinal.plugin.redis.Cache;
-import com.jfinal.plugin.redis.Redis;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class GlobalActionInterceptor implements Interceptor{
 
-    private final static Cache cache = Redis.use("bbs");
+//    private final static Cache cache = Redis.use("bbs");
 
     private final static Logger logger = LoggerFactory.getLogger(GlobalActionInterceptor.class);
 
@@ -26,7 +25,8 @@ public class GlobalActionInterceptor implements Interceptor{
         logger.info("Before GlobalActionInterceptor Invoke -- "+service.justDuIt());
         String authKey = controller.getHeader("X-Auth");//拦截请求头中的自定义登录态
         logger.info("拦截到的自定义登录态："+authKey);
-        Object openid = cache.get("openid:"+authKey);
+//        Object openid = cache.get("openid:"+authKey);
+        Object openid = DeviceOperationService.getOperationInfoById("openid:"+authKey);
         if ( StringUtils.isEmpty(authKey) ) {
             controller.ERROR(Secrets.error_status, "Session为空");
         } else if (null == openid) {

@@ -1,5 +1,6 @@
 package com.demo.controller;
 
+import com.demo.entity.gateway.GatewayBean;
 import com.demo.entity.gateway.GatewayReqBean;
 import com.demo.entity.gateway.GatewaySaveBean;
 import com.demo.entity.gateway.RequestBean;
@@ -74,6 +75,23 @@ public class GatewayController extends BaseController {
         JSR303Validator(bean);
         OK(service.removeGateway(bean));
     }
+
+    /**
+     * 网关开启设备入网
+     */
+    @ActionKey("/gateway/permitJoin")
+    public void permitJoin() {
+        String info = getInputStreamData();
+        GatewayBean bean = getJson2Bean(GatewayBean.class, info);
+        JSR303Validator(bean);
+        String sid = getHeader("SID");
+        String authKey = getHeader("X-Auth");
+
+        service.permitJoinCheck(bean, sid, authKey);
+        service.executePermitJoin(bean, sid, authKey);
+        OK();
+    }
+
 
 
 

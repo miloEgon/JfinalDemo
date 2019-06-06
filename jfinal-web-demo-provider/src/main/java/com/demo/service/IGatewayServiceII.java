@@ -1,6 +1,9 @@
 package com.demo.service;
 
+import com.demo.entity.DeviceRelation;
 import com.demo.entity.gateway.Gateway;
+
+import java.util.List;
 
 /**
  * version = 2.0
@@ -31,4 +34,7 @@ public interface IGatewayServiceII {
 
   //内部调用，更改第三方网关的mq_tag
   boolean updateMqtag(String gatewayid, String mqTag);
+
+  //根据网关获取该网关下所有设备ID
+  List<DeviceRelation> getDeviceId(String gatewayid);
 }

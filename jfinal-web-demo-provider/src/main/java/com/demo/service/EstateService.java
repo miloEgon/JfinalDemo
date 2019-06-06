@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.demo.entity.PageEntity;
 import com.demo.entity.ReqBean;
 import com.demo.entity.estate.EstateSaveBean;
+import com.demo.entity.room.RoomReqBean;
 import com.demo.exception.ApplicationException;
 import com.demo.utils.DeanUtils;
 import com.demo.utils.EncryptionType;
@@ -65,32 +66,38 @@ public class EstateService {
         JSONObject data = new JSONObject();
         data.put("data", record);
         return data;
-        /*Record record = Db.findFirst("select `name`,address,master_id from tb_estate where id = ?", bean.getEstate_id());
-
-        Record master_id = Db.findFirst("SELECT count(*) as sums FROM `tb_floor` " +
-                " where master_id = ?", record.getStr("master_id"));
-
-        List<Record> records = Db.find("select `name`,id from tb_floor where estate_id = ? order by `name`",
-                bean.getEstate_id());
-
-        record.remove("master_id");
-        record.set("floorList",records);
-        record.set("floors",records.size());
-
-        record.set("rooms",master_id.getLong("sums"));
-
-        JSONObject data = new JSONObject();
-        data.put("data", record);
-        return data;*/
     }
 
-    public Object findRooms(Map bean) {
-        List<Record> records = Db.find("select id, name from tb_room where floor_id = ? order by name", bean.get("floor_id"));
-        /*List<Object> list = new ArrayList<>();
-        for (Record record : records) {
-            list.add(record.toJson());
+    public List<String> findBindRooms(List<String> rooms) {
+        StringBuilder sql = new StringBuilder("SELECT room_id FROM tb_room_device WHERE room_id IN ( ");
+        for (String room:rooms) {
+            sql = sql.append(room+",");
         }
-        return list;*/
+        sql = sql.replace(sql.length()-1, sql.length(), " )");
+        List<String> ids = new ArrayList<>();
+        List<Record> records = Db.find(sql.toString());
+        for (Record r:records) {
+            ids.add(r.get("room_id"));
+        }
+        return ids;
+    }
+
+    public Object findRooms(RoomReqBean bean) {
+        List<Record> records = Db.find("select id, name from tb_room where floor_id = ? order by name", bean.getFloor_id());
+        List<String> room_ids = new ArrayList<>();
+        for (Record r: records) {
+            room_ids.add("\""+r.get("id")+"\"");
+        }
+        if (room_ids.size()>0) {
+            List<String> bindRooms = findBindRooms(room_ids);
+            for (Record r: records) {
+                if (bindRooms.contains(r.get("id"))) {
+                    r.set("status",1);
+                } else {
+                    r.set("status",0);
+                }
+            }
+        }
         JSONObject data = new JSONObject();
         data.put("data", records);
         return data;

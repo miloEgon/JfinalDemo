@@ -3,8 +3,10 @@ package com.demo.controller;
 import com.demo.entity.PageEntity;
 import com.demo.entity.ReqBean;
 import com.demo.entity.estate.EstateSaveBean;
+import com.demo.entity.room.RoomReqBean;
 import com.demo.exception.ApplicationException;
 import com.demo.service.EstateService;
+import com.jfinal.aop.Clear;
 import com.jfinal.core.ActionKey;
 import com.jfinal.kit.StrKit;
 
@@ -41,10 +43,6 @@ public class EstateController extends BaseController {
      */
     @ActionKey("/house/findEstateById")
     public void findEstateById() {
-        /*Map bean = getJson2Bean(Map.class, getInputStreamData());
-        if (StrKit.isBlank((String) bean.get("estate_id")))
-            throw new ApplicationException("房产ID为空",-1,null);
-        OK(service.findEstateById(bean));*/
         ReqBean bean = getJson2Bean(ReqBean.class, getInputStreamData());
         bean.setAuthKey(getHeader("X-Auth"));
         JSR303Validator(bean);
@@ -55,10 +53,11 @@ public class EstateController extends BaseController {
      * 根据楼层ID获取房间列表
      */
     @ActionKey("/house/findRooms")
+    @Clear
     public void findRooms() {
-        Map bean = getJson2Bean(Map.class, getInputStreamData());
-        if (StrKit.isBlank((String) bean.get("floor_id")))
-            throw new ApplicationException("楼层ID为空",-1,null);
+        RoomReqBean bean = getJson2Bean(RoomReqBean.class, getInputStreamData());
+        bean.setAuthKey(getHeader("X-Auth"));
+        JSR303Validator(bean);
         OK(service.findRooms(bean));
     }
 
