@@ -26,7 +26,7 @@
         <fst.version>2.40</fst.version>
         <jfinal-ext3.version>4.0.1</jfinal-ext3.version>
         <log4jdbc.version>1.2</log4jdbc.version>
-        <fastjson.version>1.2.24</fastjson.version>
+        <fastjson.version>1.2.25</fastjson.version>
         <javax.persistence.version>2.1.0</javax.persistence.version>
         <hibernate-validator.version>5.3.4.Final</hibernate-validator.version>
         <javase.version>3.1.0</javase.version>
