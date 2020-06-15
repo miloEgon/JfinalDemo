@@ -28,7 +28,7 @@
         <log4jdbc.version>1.2</log4jdbc.version>
         <fastjson.version>1.2.24</fastjson.version>
         <javax.persistence.version>2.1.0</javax.persistence.version>
-        <hibernate-validator.version>5.3.4.Final</hibernate-validator.version>
+        <hibernate-validator.version>5.3.5.Final</hibernate-validator.version>
         <javase.version>3.1.0</javase.version>
         <core.version>3.1.0</core.version>
         <commons-pool2.version>2.2</commons-pool2.version>
