@@ -33,7 +33,7 @@
         <core.version>3.1.0</core.version>
         <commons-pool2.version>2.2</commons-pool2.version>
         <commons-io.version>1.3.2</commons-io.version>
-        <httpclient.version>4.5.3</httpclient.version>
+        <httpclient.version>4.5.13</httpclient.version>
         <zbus.version>0.11.4</zbus.version>
     </properties>
 
